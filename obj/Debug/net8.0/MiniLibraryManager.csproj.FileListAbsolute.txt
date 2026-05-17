@@ -1,0 +1,14 @@
+C:\Training\MiniLibraryManager\bin\Debug\net8.0\MiniLibraryManager.exe
+C:\Training\MiniLibraryManager\bin\Debug\net8.0\MiniLibraryManager.deps.json
+C:\Training\MiniLibraryManager\bin\Debug\net8.0\MiniLibraryManager.runtimeconfig.json
+C:\Training\MiniLibraryManager\bin\Debug\net8.0\MiniLibraryManager.dll
+C:\Training\MiniLibraryManager\bin\Debug\net8.0\MiniLibraryManager.pdb
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.AssemblyInfoInputs.cache
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.AssemblyInfo.cs
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.csproj.CoreCompileInputs.cache
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.dll
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\refint\MiniLibraryManager.dll
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.pdb
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.genruntimeconfig.cache
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\ref\MiniLibraryManager.dll
