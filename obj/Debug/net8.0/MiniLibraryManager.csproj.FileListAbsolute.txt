@@ -12,3 +12,4 @@ C:\Training\MiniLibraryManager\obj\Debug\net8.0\refint\MiniLibraryManager.dll
 C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.pdb
 C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.genruntimeconfig.cache
 C:\Training\MiniLibraryManager\obj\Debug\net8.0\ref\MiniLibraryManager.dll
+C:\Training\MiniLibraryManager\obj\Debug\net8.0\MiniLibraryManager.sourcelink.json

@@ -16,13 +16,13 @@ while (running)
     Console.WriteLine("6. Borrow Book");
     Console.WriteLine("7. Return Book");
     Console.WriteLine("8. View Borrowing History");
-    Console.WriteLine("9. Remove Book");
-    Console.WriteLine("10. Remove Member");
-    Console.WriteLine("11. Remove Record");
-    Console.WriteLine("12. Edit Member");
-    Console.WriteLine("13. Edit Book");
+    Console.WriteLine("9. Delete Book");
+    Console.WriteLine("10. Delete Member");
+    Console.WriteLine("11. Delete Borrow Record");
+    Console.WriteLine("12. Edit Book");
+    Console.WriteLine("13. Edit Member");
     Console.WriteLine("14. Exit");
-    Console.Write("Choose an option 1-14: ");
+    Console.Write("Choose an option: ");
 
     var input = Console.ReadLine();
 
@@ -62,10 +62,10 @@ while (running)
             DeleteRecord();
             break;
         case "12":
-            EditMember();
+            EditBook();
             break;
         case "13":
-            EditBook();
+            EditMember();
             break;
         case "14":
             running = false;
@@ -77,93 +77,6 @@ while (running)
     }
 }
 
-void DeleteRecord()
-{
-    Console.WriteLine("\n--- Remove Record ---");
-
-    var records = service.GetBorrowingHistory();
-    if (records.Count == 0)
-    {
-        Console.WriteLine("No Borrow Record Found");
-        return;
-    }
-    var books = service.GetAllBooks();
-    var members = service.GetAllMembers();
-
-    foreach (var r in records)
-    {
-        Console.WriteLine(new string('-', 30));
-        var book = books.FirstOrDefault(b => b.Id == r.BookId);
-        var member = members.FirstOrDefault(m => m.Id == r.MemberId);
-        Console.WriteLine($"Record ID: {r.RecordId}");
-        Console.WriteLine($"Book: {book?.Title ?? "Unknown"}");
-        Console.WriteLine($"Member: {member?.FullName ?? "Unknown"}");
-        Console.WriteLine($"Borrowed: {r.BorrowDate:yyyy-MM-dd}");
-        Console.WriteLine(r.IsReturned ? $"Returned: {r.ReturnDate:yyyy-MM-dd}" : "Status: Not yet returned");
-    }
-    Console.WriteLine(new string('-', 30));
-    Console.Write("Enter Record ID to delete: ");
-
-    if (!int.TryParse(Console.ReadLine(), out int recordId))
-    {
-        Console.WriteLine("Invalid ID. Must be a number.");
-        return;
-    }
-    try
-    {
-        service.DeleteRecord(recordId);
-        Console.WriteLine("Record Removed Successfully");
-    }
-    catch (InvalidOperationException ex)
-    {
-        Console.WriteLine($"Error: {ex.Message}");
-    }
-}
-
-void DeleteBook()
-{
-    Console.WriteLine("\n--- Remove Book ---");
-
-    Console.Write("Delete Book With ID: ");
-
-    if (!int.TryParse(Console.ReadLine(), out int bookid))
-    {
-        Console.WriteLine("Must Be a Valid Book ID");
-        return;
-    }
-    try
-    {
-        service.DeleteBook(bookid);
-        Console.WriteLine("Book Removed Successfully");
-    }
-    catch (InvalidOperationException ex)
-    {
-        Console.WriteLine($"Error: {ex.Message}");
-    }
-}
-
-void DeleteMember()
-{
-    Console.WriteLine("\n--- Remove Member ---");
-
-    Console.Write("Delete Member With ID: ");
-
-    if (!int.TryParse(Console.ReadLine(), out int memberId))
-    {
-        Console.WriteLine("Must Be a Valid Member ID");
-        return;
-    }
-    try
-    {
-        service.DeleteMember(memberId);
-        Console.WriteLine("Member Removed Successfully");
-    }
-    catch (InvalidOperationException ex)
-    {
-        Console.WriteLine($"Error: {ex.Message}");
-    }
-}
-
 void AddBook()
 {
     Console.WriteLine("\n--- Add New Book ---");
@@ -171,7 +84,7 @@ void AddBook()
     Console.Write("Book ID: ");
     if (!int.TryParse(Console.ReadLine(), out int id))
     {
-        Console.WriteLine("Invalid ID. Must be a number.");
+        Console.WriteLine("Invalid ID. Must be a number. Returning to menu.");
         return;
     }
 
@@ -179,7 +92,7 @@ void AddBook()
     var title = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(title))
     {
-        Console.WriteLine("Title cannot be empty.");
+        Console.WriteLine("Title cannot be empty. Returning to menu.");
         return;
     }
 
@@ -187,14 +100,14 @@ void AddBook()
     var author = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(author))
     {
-        Console.WriteLine("Author cannot be empty.");
+        Console.WriteLine("Author cannot be empty. Returning to menu.");
         return;
     }
 
     Console.Write("Published Year: ");
     if (!int.TryParse(Console.ReadLine(), out int year))
     {
-        Console.WriteLine("Invalid year.");
+        Console.WriteLine("Invalid year. Returning to menu.");
         return;
     }
 
@@ -214,7 +127,7 @@ void AddBook()
     }
     catch (InvalidOperationException ex)
     {
-        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine($"Error: {ex.Message} Returning to menu.");
     }
 }
 
@@ -271,7 +184,7 @@ void RegisterMember()
     Console.Write("Member ID: ");
     if (!int.TryParse(Console.ReadLine(), out int id))
     {
-        Console.WriteLine("Invalid ID. Must be a number.");
+        Console.WriteLine("Invalid ID. Must be a number. Returning to menu.");
         return;
     }
 
@@ -279,7 +192,7 @@ void RegisterMember()
     var name = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(name))
     {
-        Console.WriteLine("Name cannot be empty.");
+        Console.WriteLine("Name cannot be empty. Returning to menu.");
         return;
     }
 
@@ -287,7 +200,7 @@ void RegisterMember()
     var email = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(email))
     {
-        Console.WriteLine("Email cannot be empty.");
+        Console.WriteLine("Email cannot be empty. Returning to menu.");
         return;
     }
 
@@ -302,7 +215,7 @@ void RegisterMember()
     }
     catch (InvalidOperationException ex)
     {
-        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine($"Error: {ex.Message} Returning to menu.");
     }
 }
 
@@ -402,6 +315,119 @@ void ViewBorrowingHistory()
         Console.WriteLine(record.IsReturned
             ? $"Returned: {record.ReturnDate:yyyy-MM-dd}"
             : "Status: Not yet returned");
+    }
+}
+
+void DeleteBook()
+{
+    Console.WriteLine("\n--- Delete Book ---");
+
+    Console.Write("Enter Book ID to delete: ");
+    if (!int.TryParse(Console.ReadLine(), out int bookId))
+    {
+        Console.WriteLine("Invalid ID. Must be a number.");
+        return;
+    }
+
+    Console.Write("Are you sure you want to delete this book? (yes/no): ");
+    var confirm = Console.ReadLine();
+    if (confirm?.ToLower() != "yes")
+    {
+        Console.WriteLine("Delete cancelled.");
+        return;
+    }
+
+    try
+    {
+        service.DeleteBook(bookId);
+        Console.WriteLine("Book deleted successfully.");
+    }
+    catch (InvalidOperationException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
+}
+
+void DeleteMember()
+{
+    Console.WriteLine("\n--- Delete Member ---");
+
+    Console.Write("Enter Member ID to delete: ");
+    if (!int.TryParse(Console.ReadLine(), out int memberId))
+    {
+        Console.WriteLine("Invalid ID. Must be a number.");
+        return;
+    }
+
+    Console.Write("Are you sure you want to delete this member? (yes/no): ");
+    var confirm = Console.ReadLine();
+    if (confirm?.ToLower() != "yes")
+    {
+        Console.WriteLine("Delete cancelled.");
+        return;
+    }
+
+    try
+    {
+        service.DeleteMember(memberId);
+        Console.WriteLine("Member deleted successfully.");
+    }
+    catch (InvalidOperationException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
+}
+
+void DeleteRecord()
+{
+    Console.WriteLine("\n--- Delete Borrow Record ---");
+
+    var records = service.GetBorrowingHistory();
+    if (records.Count == 0)
+    {
+        Console.WriteLine("No borrow records found.");
+        return;
+    }
+
+    var books = service.GetAllBooks();
+    var members = service.GetAllMembers();
+
+    foreach (var r in records)
+    {
+        Console.WriteLine(new string('-', 30));
+        var book = books.FirstOrDefault(b => b.Id == r.BookId);
+        var member = members.FirstOrDefault(m => m.Id == r.MemberId);
+        Console.WriteLine($"Record ID: {r.RecordId}");
+        Console.WriteLine($"Book: {book?.Title ?? "Unknown"}");
+        Console.WriteLine($"Member: {member?.FullName ?? "Unknown"}");
+        Console.WriteLine($"Borrowed: {r.BorrowDate:yyyy-MM-dd}");
+        Console.WriteLine(r.IsReturned ? $"Returned: {r.ReturnDate:yyyy-MM-dd}" : "Status: Not yet returned");
+    }
+
+    Console.WriteLine(new string('-', 30));
+    Console.Write("Enter Record ID to delete: ");
+    if (!int.TryParse(Console.ReadLine(), out int recordId))
+    {
+        Console.WriteLine("Invalid ID. Must be a number.");
+        return;
+    }
+
+    Console.Write("Are you sure you want to delete this record? (yes/no): ");
+    var confirm = Console.ReadLine();
+    if (confirm?.ToLower() != "yes")
+    {
+        Console.WriteLine("Delete cancelled.");
+        return;
+    }
+
+    try
+    {
+        service.DeleteRecord(recordId);
+        Console.WriteLine("Borrow record deleted successfully.");
+    }
+    catch (InvalidOperationException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
     }
 }
 
